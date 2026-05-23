@@ -26,16 +26,16 @@ class EventResource extends Resource
     {
         return __('Events');
     }
-
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return __('Content');
+    }
     public static function getNavigationIcon(): string|\BackedEnum|null
     {
         return Heroicon::OutlinedCalendarDays;
     }
 
-    public static function getNavigationGroup(): string|\UnitEnum|null
-    {
-        return __('Content');
-    }
+
 
     public static function form(Schema $schema): Schema
     {

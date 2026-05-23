@@ -95,6 +95,11 @@
                 @endif
             </div>
 
+            {{-- Global Search --}}
+            <div class="hidden lg:flex items-center">
+                @livewire('global-search')
+            </div>
+
             {{-- Language Switcher --}}
             @if($languages->isNotEmpty())
                 <div class="hidden lg:flex items-center gap-2">
@@ -149,6 +154,10 @@
                     {{ $contactLink['label'] }}
                 </a>
             @endif
+
+            <div class="pt-3 border-t border-neutral-100">
+                @livewire('global-search')
+            </div>
 
             @if($languages->isNotEmpty())
                 <div class="pt-3 border-t border-neutral-100 flex items-center gap-2 flex-wrap">
