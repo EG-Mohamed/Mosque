@@ -9,9 +9,11 @@ use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Utilities\Get;
 
 class ListPrayerTimes extends ListRecords
 {
@@ -21,10 +23,20 @@ class ListPrayerTimes extends ListRecords
     {
         return [
             Action::make('generateMonthly')
-                ->label(__('Generate Monthly'))
+                ->label(__('Generate Prayer Times'))
                 ->outlined()
                 ->color('success')
                 ->schema([
+                    Select::make('scope')
+                        ->label(__('Scope'))
+                        ->options([
+                            'month' => __('Monthly'),
+                            'year' => __('Yearly'),
+                        ])
+                        ->default('month')
+                        ->live()
+                        ->required(),
+
                     Select::make('month')
                         ->label(__('Month'))
                         ->options(array_combine(range(1, 12), array_map(
@@ -32,7 +44,8 @@ class ListPrayerTimes extends ListRecords
                             range(1, 12)
                         )))
                         ->default(now()->month)
-                        ->required(),
+                        ->visible(fn (Get $get): bool => $get('scope') === 'month')
+                        ->required(fn (Get $get): bool => $get('scope') === 'month'),
 
                     Select::make('year')
                         ->label(__('Year'))
@@ -42,9 +55,18 @@ class ListPrayerTimes extends ListRecords
                         ))
                         ->default(now()->year)
                         ->required(),
+
+                    Toggle::make('overwrite')
+                        ->label(__('Overwrite existing times'))
+                        ->helperText(__('When off, existing days are kept and only empty fields are filled.'))
+                        ->default(false),
                 ])
                 ->action(function (array $data, PrayerTimeService $service): void {
-                    $generated = $service->generateMonth((int) $data['year'], (int) $data['month']);
+                    $overwrite = (bool) ($data['overwrite'] ?? false);
+
+                    $generated = ($data['scope'] ?? 'month') === 'year'
+                        ? $service->generateYear((int) $data['year'], $overwrite)
+                        : $service->generateMonth((int) $data['year'], (int) $data['month'], $overwrite);
 
                     Notification::make()
                         ->title(__(':count prayer times generated', ['count' => $generated]))
