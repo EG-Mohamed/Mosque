@@ -3,10 +3,12 @@
 namespace App\Filament\Admin\Resources\PrayerTimes\Pages;
 
 use App\Filament\Admin\Resources\PrayerTimes\PrayerTimeResource;
+use App\Filament\Imports\PrayerTimeImporter;
 use App\Models\PrayerTime;
 use App\Services\PrayerTimeService;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
@@ -142,6 +144,11 @@ class ListPrayerTimes extends ListRecords
                         ->success()
                         ->send();
                 }),
+
+            ImportAction::make()
+                ->label(__('Import Prayer Times'))
+                ->icon('heroicon-o-arrow-up-tray')
+                ->importer(PrayerTimeImporter::class),
 
             CreateAction::make(),
         ];

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\PrayerTime;
+use App\Support\PrayerTimeFormatter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -206,16 +207,8 @@ class PrayerTimeService
 
     private function adjustTime(?string $time, int $minutes): ?string
     {
-        if (! $time) {
-            return null;
-        }
+        $adjusted = PrayerTimeFormatter::addMinutes($time, $minutes);
 
-        $time = trim(preg_replace('/\(.*\)/', '', $time));
-
-        if ($minutes === 0) {
-            return Carbon::parse($time)->format('H:i');
-        }
-
-        return Carbon::parse($time)->addMinutes($minutes)->format('H:i');
+        return $adjusted ? Carbon::parse($adjusted)->format('H:i') : null;
     }
 }
