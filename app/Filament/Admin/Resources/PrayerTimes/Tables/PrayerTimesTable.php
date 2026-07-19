@@ -39,7 +39,12 @@ class PrayerTimesTable
                 TextColumn::make('date')
                     ->label(__('Date'))
                     ->description(fn ($record) => LocalizedDate::weekday($record->date), 'above')
-                    ->formatStateUsing(fn ($state) => LocalizedDate::date($state))
+                    ->formatStateUsing(fn ($state, $record) => Carbon::parse($record->date)->isToday()
+                        ? LocalizedDate::date($state).' • '.__('Today')
+                        : LocalizedDate::date($state))
+                    ->badge(fn ($record): bool => Carbon::parse($record->date)->isToday())
+                    ->color(fn ($record): string => Carbon::parse($record->date)->isToday() ? 'success' : 'gray')
+                    ->weight(fn ($record) => Carbon::parse($record->date)->isToday() ? 'bold' : null)
                     ->sortable(),
 
                 TextColumn::make('fajr_adhan')
@@ -82,8 +87,7 @@ class PrayerTimesTable
                 Filter::make('date')
                     ->schema([
                         DatePicker::make('date_from')
-                            ->label(__('From'))
-                            ->default(today()),
+                            ->label(__('From')),
                         DatePicker::make('date_to')
                             ->label(__('To')),
                     ])
@@ -101,8 +105,7 @@ class PrayerTimesTable
                         }
 
                         return $indicators;
-                    })
-                    ->default(),
+                    }),
                 Filter::make('day')
                     ->label(__('Day'))
                     ->schema([

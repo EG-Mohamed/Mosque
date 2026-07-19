@@ -13,11 +13,52 @@ use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListPrayerTimes extends ListRecords
 {
     protected static string $resource = PrayerTimeResource::class;
+
+    public function getDefaultActiveTab(): string
+    {
+        return 'upcoming';
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'upcoming' => Tab::make(__('Upcoming'))
+                ->icon(Heroicon::OutlinedCalendarDays)
+                ->badge(PrayerTime::query()->whereDate('date', '>=', today())->count())
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query
+                    ->whereDate('date', '>=', today())
+                    ->reorder('date', 'asc')),
+
+            'today' => Tab::make(__('Today'))
+                ->icon(Heroicon::OutlinedSun)
+                ->badgeColor('success')
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query->whereDate('date', today())),
+
+            'week' => Tab::make(__('This Week'))
+                ->icon(Heroicon::OutlinedCalendar)
+                ->badge(PrayerTime::query()->whereBetween('date', [today(), today()->addDays(6)])->count())
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query
+                    ->whereBetween('date', [today(), today()->addDays(6)])
+                    ->reorder('date', 'asc')),
+
+            'past' => Tab::make(__('Past'))
+                ->icon(Heroicon::OutlinedArrowUturnLeft)
+                ->modifyQueryUsing(fn (Builder $query): Builder => $query
+                    ->whereDate('date', '<', today())
+                    ->reorder('date', 'desc')),
+
+            'all' => Tab::make(__('All'))
+                ->icon(Heroicon::OutlinedBars3),
+        ];
+    }
 
     protected function getHeaderActions(): array
     {
