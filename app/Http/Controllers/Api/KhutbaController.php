@@ -16,7 +16,7 @@ class KhutbaController extends Controller
 {
     public function index(KhutbaIndexRequest $request): AnonymousResourceCollection
     {
-        $locale = $this->locale($request);
+        $locale = app()->getLocale();
         $search = trim((string) $request->string('search'));
 
         $query = Khutba::query()
@@ -69,12 +69,5 @@ class KhutbaController extends Controller
             ->paginate($request->perPage(50));
 
         return KhutbaCategoryResource::collection($categories);
-    }
-
-    private function locale(PaginatedApiRequest $request): string
-    {
-        $locale = trim((string) ($request->query('locale') ?? $request->query('lang') ?? app()->getLocale()));
-
-        return $locale !== '' ? $locale : app()->getLocale();
     }
 }

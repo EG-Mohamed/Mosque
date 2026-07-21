@@ -10,7 +10,7 @@ class KhutbaCategoryResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->translated('name', $request),
+            'name' => $this->translated('name'),
             'sort_order' => $this->sort_order,
         ];
     }

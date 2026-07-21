@@ -10,9 +10,9 @@ class EventResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->translated('title', $request),
-            'description' => $this->translated('description', $request),
-            'location' => $this->translated('location', $request),
+            'title' => $this->translated('title'),
+            'description' => $this->translated('description'),
+            'location' => $this->translated('location'),
             'image' => $this->image,
             'image_url' => $this->assetUrl($this->image),
             'starts_at' => $this->dateTimeString($this->starts_at),

@@ -16,7 +16,7 @@ class NewsController extends Controller
 {
     public function index(NewsIndexRequest $request): AnonymousResourceCollection
     {
-        $locale = $this->locale($request);
+        $locale = app()->getLocale();
         $search = trim((string) $request->string('search'));
 
         $query = News::query()
@@ -64,12 +64,5 @@ class NewsController extends Controller
             ->paginate($request->perPage(50));
 
         return NewsCategoryResource::collection($categories);
-    }
-
-    private function locale(PaginatedApiRequest $request): string
-    {
-        $locale = trim((string) ($request->query('locale') ?? $request->query('lang') ?? app()->getLocale()));
-
-        return $locale !== '' ? $locale : app()->getLocale();
     }
 }

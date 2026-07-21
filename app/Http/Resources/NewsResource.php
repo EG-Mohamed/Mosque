@@ -10,10 +10,10 @@ class NewsResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->translated('title', $request),
+            'title' => $this->translated('title'),
             'slug' => $this->slug,
-            'excerpt' => $this->translated('excerpt', $request),
-            'content' => $this->translated('content', $request),
+            'excerpt' => $this->translated('excerpt'),
+            'content' => $this->translated('content'),
             'featured_image_url' => $this->assetUrl($this->featured_image),
             'published_at' => $this->dateTimeString($this->published_at),
             'url' => route('news.show', $this->slug),

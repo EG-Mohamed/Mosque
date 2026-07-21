@@ -10,8 +10,8 @@ class AnnouncementResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->translated('title', $request),
-            'content' => $this->translated('content', $request),
+            'title' => $this->translated('title'),
+            'content' => $this->translated('content'),
             'type' => $this->enumValue($this->type),
             'published_at' => $this->dateTimeString($this->published_at),
             'expires_at' => $this->dateTimeString($this->expires_at),

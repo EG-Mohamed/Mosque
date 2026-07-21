@@ -14,8 +14,6 @@ class PaginatedApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'locale' => ['sometimes', 'string', 'max:10'],
-            'lang' => ['sometimes', 'string', 'max:10'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
             'page' => ['sometimes', 'integer', 'min:1'],
         ];

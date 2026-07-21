@@ -10,8 +10,8 @@ class MediaItemResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->translated('title', $request),
-            'alt_text' => $this->translated('alt_text', $request),
+            'title' => $this->translated('title'),
+            'alt_text' => $this->translated('alt_text'),
             'file_url' => $this->assetUrl($this->file_path),
             'type' => $this->enumValue($this->type),
             'collection' => $this->collection,

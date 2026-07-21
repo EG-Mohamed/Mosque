@@ -10,7 +10,7 @@ class NewsCategoryResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->translated('name', $request),
+            'name' => $this->translated('name'),
             'parent_id' => $this->parent_id,
             'sort_order' => $this->sort_order,
         ];

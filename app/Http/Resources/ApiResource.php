@@ -5,22 +5,14 @@ namespace App\Http\Resources;
 use App\Support\AssetPath;
 use BackedEnum;
 use DateTimeInterface;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiResource extends JsonResource
 {
-    protected function locale(Request $request): string
-    {
-        $locale = trim((string) ($request->query('locale') ?? $request->query('lang') ?? app()->getLocale()));
-
-        return $locale !== '' ? $locale : app()->getLocale();
-    }
-
-    protected function translated(string $attribute, Request $request): ?string
+    protected function translated(string $attribute): ?string
     {
         $value = method_exists($this->resource, 'getTranslation')
-            ? $this->resource->getTranslation($attribute, $this->locale($request), true)
+            ? $this->resource->getTranslation($attribute, app()->getLocale(), true)
             : $this->{$attribute};
 
         return filled($value) ? (string) $value : null;

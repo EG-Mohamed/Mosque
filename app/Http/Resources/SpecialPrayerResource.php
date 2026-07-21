@@ -10,9 +10,9 @@ class SpecialPrayerResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->translated('name', $request),
-            'group' => $this->translated('group', $request),
-            'description' => $this->translated('description', $request),
+            'name' => $this->translated('name'),
+            'group' => $this->translated('group'),
+            'description' => $this->translated('description'),
             'location' => $this->location,
             'date' => $this->dateString($this->date),
             'time' => $this->time,

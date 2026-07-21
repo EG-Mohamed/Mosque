@@ -9,9 +9,12 @@ use App\Http\Controllers\Api\PrayerTimeController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\SpecialPrayerController;
 use App\Http\Controllers\Api\StaffController;
+use App\Http\Middleware\SetLocaleMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::name('api.')->group(function (): void {
+Route::name('api.')->middleware([
+    SetLocaleMiddleware::class,
+])->group(function (): void {
     Route::get('prayer-times', [PrayerTimeController::class, 'index'])->name('prayer-times.index');
     Route::get('prayer-times/today', [PrayerTimeController::class, 'today'])->name('prayer-times.today');
 

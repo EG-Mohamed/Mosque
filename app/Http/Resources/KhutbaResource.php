@@ -10,12 +10,12 @@ class KhutbaResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->translated('title', $request),
+            'title' => $this->translated('title'),
             'slug' => $this->slug,
-            'topic' => $this->translated('topic', $request),
-            'summary' => $this->translated('summary', $request),
-            'speaker' => $this->translated('speaker', $request),
-            'content' => $this->translated('content', $request),
+            'topic' => $this->translated('topic'),
+            'summary' => $this->translated('summary'),
+            'speaker' => $this->translated('speaker'),
+            'content' => $this->translated('content'),
             'date' => $this->dateString($this->date),
             'audio_url' => $this->assetUrl($this->audio_url),
             'video_url' => $this->assetUrl($this->video_url),

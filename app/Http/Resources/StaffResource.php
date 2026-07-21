@@ -10,9 +10,9 @@ class StaffResource extends ApiResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->translated('name', $request),
-            'title' => $this->translated('title', $request),
-            'bio' => $this->translated('bio', $request),
+            'name' => $this->translated('name'),
+            'title' => $this->translated('title'),
+            'bio' => $this->translated('bio'),
             'photo' => $this->photo,
             'photo_url' => $this->assetUrl($this->photo),
             'email' => $this->email,
