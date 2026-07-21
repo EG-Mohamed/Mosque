@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -10,15 +11,14 @@ class SettingsController extends Controller
     {
         $settings = app('setting')->get();
         return [
-            'name' => $settings['general']['name'] ?? config('app.name'),
-            'description' => $settings['general']['description'] ?? config('app.description'),
-            'url' => $settings['general']['url'] ?? config('app.url'),
-            'logo' => $settings['branding']['logo'] ?? config('app.logo'),
-            'favicon' => $settings['branding']['favicon'] ?? config('app.favicon'),
-            'email' => $settings['general']['email'] ?? config('app.email'),
-            'address' => $settings['general']['address'] ?? config('app.address'),
-            'primary_phone' => $settings['general']['primary_phone'] ?? config('app.primary_phone'),
-            'secondary_phone' => $settings['general']['secondary_phone'] ?? config('app.secondary_phone'),
+            'name' => $settings['general']['name'],
+            'description' => $settings['general']['description'],
+            'url' => $settings['general']['url'],
+            'logo' => Storage::url($settings['branding']['logo']),
+            'email' => $settings['general']['email'],
+            'address' => $settings['general']['address'],
+            'primary_phone' => $settings['general']['primary_phone'],
+            'secondary_phone' => $settings['general']['secondary_phone'],
             'social' => $settings['social'],
             'location' => $settings['location'],
         ];
