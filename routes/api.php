@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\KhutbaController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PrayerTimeController;
+use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\SpecialPrayerController;
 use App\Http\Controllers\Api\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,6 @@ Route::name('api.')->group(function (): void {
     Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
 
     Route::get('staff', [StaffController::class, 'index'])->name('staff.index');
+
+    Route::get('settings', [SettingsController::class, 'settings'])->name('settings.index');
 });
