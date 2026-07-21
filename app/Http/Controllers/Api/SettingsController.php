@@ -16,7 +16,7 @@ class SettingsController extends Controller
         return [
             'name' => data_get($settings, 'general.name'),
             'description' => data_get($settings, 'general.description'),
-            'url' => data_get($settings, 'general.url'),
+            'url' => config('app.url'),
             'logo' => $logo ? Storage::url($logo) : null,
             'email' => data_get($settings, 'general.email'),
             'address' => data_get($settings, 'general.address'),
