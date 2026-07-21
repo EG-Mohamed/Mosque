@@ -7,20 +7,23 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
-    public function settings()
+    public function settings(): array
     {
         $settings = app('setting')->get();
+
+        $logo = data_get($settings, 'branding.logo');
+
         return [
-            'name' => $settings['general']['name'],
-            'description' => $settings['general']['description'],
-            'url' => $settings['general']['url'],
-            'logo' => Storage::url($settings['branding']['logo']),
-            'email' => $settings['general']['email'],
-            'address' => $settings['general']['address'],
-            'primary_phone' => $settings['general']['primary_phone'],
-            'secondary_phone' => $settings['general']['secondary_phone'],
-            'social' => $settings['social'],
-            'location' => $settings['location'],
+            'name' => data_get($settings, 'general.name'),
+            'description' => data_get($settings, 'general.description'),
+            'url' => data_get($settings, 'general.url'),
+            'logo' => $logo ? Storage::url($logo) : null,
+            'email' => data_get($settings, 'general.email'),
+            'address' => data_get($settings, 'general.address'),
+            'primary_phone' => data_get($settings, 'general.primary_phone'),
+            'secondary_phone' => data_get($settings, 'general.secondary_phone'),
+            'social' => data_get($settings, 'social', []),
+            'location' => data_get($settings, 'location', []),
         ];
     }
 }
