@@ -38,6 +38,16 @@ return [
     'mp3quran' => [
         'base_url' => env('MP3QURAN_API_BASE_URL', 'https://mp3quran.net/api/v3'),
         'timeout' => env('MP3QURAN_API_TIMEOUT', 20),
+        'additional_radios' => [
+            [
+                'id' => 900000001,
+                'name' => [
+                    'ar' => 'إذاعة القرآن - القاهرة',
+                    'eng' => 'Quran Radio - Cairo',
+                ],
+                'url' => 'https://stream.radiojar.com/8s5u5tpdtwzuv',
+            ],
+        ],
     ],
 
 ];

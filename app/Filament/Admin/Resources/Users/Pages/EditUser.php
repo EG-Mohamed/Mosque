@@ -13,7 +13,7 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()->disabled(fn ($record): bool => ($record->is(auth()->user()) )),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Mail\ContactSubmissionReceivedMail;
 use App\Models\ContactSubmission;
+use App\Models\User;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
@@ -62,10 +63,13 @@ class ContactForm extends Component implements HasSchemas
         $state = $this->form->getState();
 
         $submission = ContactSubmission::create($state);
-        $adminEmail = (string) setting('general.email');
 
-        if (filled($adminEmail) && filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
-            Mail::to($adminEmail)->send(new ContactSubmissionReceivedMail($submission));
+        $recipients = User::query()
+            ->where('receive_notification', true)
+            ->pluck('email');
+
+        if ($recipients->isNotEmpty()) {
+            Mail::to($recipients->all())->send(new ContactSubmissionReceivedMail($submission));
         }
 
         $this->form->fill();

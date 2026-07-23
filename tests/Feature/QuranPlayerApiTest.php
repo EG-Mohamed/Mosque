@@ -72,6 +72,51 @@ it('returns normalized quran player bootstrap data', function () {
         ->assertJsonPath('data.reciters.0.moshaf.0.timing_read_id', 5);
 });
 
+it('returns localized and normalized online radio stations', function () {
+    Http::fake([
+        'mp3quran.net/api/v3/radios*' => Http::response([
+            'radios' => [
+                ['id' => 10, 'name' => 'First Radio', 'url' => 'https://Qurango.net/radio/first'],
+                ['id' => 20, 'name' => 'Second Radio', 'url' => 'https://Qurango.net/radio/second'],
+                ['id' => 0, 'name' => 'Invalid Radio', 'url' => null],
+            ],
+        ]),
+    ]);
+
+    $this->getJson(route('quran-player.radios', [
+        'language' => 'en',
+        'limit' => 2,
+    ]))
+        ->assertOk()
+        ->assertJsonCount(2, 'radios')
+        ->assertJsonPath('radios.0.name', 'Quran Radio - Cairo')
+        ->assertJsonPath('radios.0.url', 'https://stream.radiojar.com/8s5u5tpdtwzuv')
+        ->assertJsonPath('radios.1.id', 10)
+        ->assertJsonPath('radios.1.name', 'First Radio')
+        ->assertJsonPath('radios.1.url', 'https://Qurango.net/radio/first');
+
+    $this->getJson(route('quran-player.radios', [
+        'language' => 'ar',
+        'limit' => 1,
+    ]))
+        ->assertOk()
+        ->assertJsonPath('radios.0.name', 'إذاعة القرآن - القاهرة');
+
+    Http::assertSent(fn ($request): bool => $request->url() === 'https://mp3quran.net/api/v3/radios?language=eng');
+});
+
+it('keeps the local Cairo radio available when the upstream radio api fails', function () {
+    Http::fake([
+        'mp3quran.net/api/v3/radios*' => Http::response(['message' => 'Server error'], 500),
+    ]);
+
+    $this->getJson(route('quran-player.radios', ['language' => 'ar']))
+        ->assertOk()
+        ->assertJsonCount(1, 'radios')
+        ->assertJsonPath('radios.0.name', 'إذاعة القرآن - القاهرة')
+        ->assertJsonPath('radios.0.url', 'https://stream.radiojar.com/8s5u5tpdtwzuv');
+});
+
 it('falls back to stale cached quran player data when the upstream request fails', function () {
     Http::fake([
         'mp3quran.net/api/v3/reciters*' => Http::response([

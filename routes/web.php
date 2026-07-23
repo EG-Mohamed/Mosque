@@ -56,6 +56,7 @@ Route::middleware('section-enabled:contact')->group(function (): void {
 
 Route::prefix('api/quran-player')->name('quran-player.')->group(function (): void {
     Route::get('/bootstrap', [QuranPlayerController::class, 'bootstrap'])->name('bootstrap');
+    Route::get('/radios', [QuranPlayerController::class, 'radios'])->name('radios');
     Route::get('/ayat-timing/soar', [QuranPlayerController::class, 'timingSoar'])->name('timing.soar');
     Route::get('/ayat-timing', [QuranPlayerController::class, 'ayatTiming'])->name('timing.ayat');
     Route::get('/page-svg', [QuranPlayerController::class, 'pageSvg'])->name('page-svg');

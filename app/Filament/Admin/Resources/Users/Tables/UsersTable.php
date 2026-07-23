@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class UsersTable
@@ -23,6 +24,8 @@ class UsersTable
                 TextColumn::make('roles.name')
                     ->label(__('Roles'))
                     ->badge(),
+                ToggleColumn::make('receive_notification')
+                    ->label(__('Email Notifications')),
                 TextColumn::make('created_at')
                     ->label(__('Created At'))
                     ->dateTime()
@@ -32,11 +35,6 @@ class UsersTable
             ->filters([])
             ->recordActions([
                 EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

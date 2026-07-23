@@ -20,7 +20,13 @@ class BlockRenderer
             $data = $block->block_type::formatForSingleView($block->data ?? []);
 
             try {
-                $html .= view($view, ['data' => $data])->render();
+                $html .= view($view, [
+                    'block' => [
+                        'id' => $block->getKey(),
+                        'data' => $data,
+                    ],
+                    'data' => $data,
+                ])->render();
             } catch (\Exception $exception) {
                 dd("Error rendering block of type {$block->block_type}: View '{$view}' not found or error in view.");
             }

@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Users\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rules\Password;
@@ -34,6 +35,9 @@ class UserForm
                             ->rule(Password::default())
                             ->dehydrated(fn ($state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create'),
+                        Toggle::make('receive_notification')
+                            ->label(__('Receive Email Notifications'))
+                            ->default(true),
                     ]),
                 Section::make(__('Roles'))
                     ->schema([

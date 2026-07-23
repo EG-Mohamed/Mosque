@@ -174,16 +174,31 @@ class Mp3QuranClient
 
     public function radios(?string $language = null, ?int $limit = null): array
     {
-        $radios = collect($this->listFromPayload(
-            $this->request('radios', ['language' => $this->resolveLanguage($language)], self::DYNAMIC_TTL),
-            'radios',
-        ))
+        $language = $this->resolveLanguage($language);
+        $additionalRadios = collect(config('services.mp3quran.additional_radios', []));
+
+        try {
+            $upstreamRadios = $this->listFromPayload(
+                $this->request('radios', ['language' => $language], self::DYNAMIC_TTL),
+                'radios',
+            );
+        } catch (Throwable $exception) {
+            report($exception);
+            $upstreamRadios = [];
+        }
+
+        $radios = $additionalRadios
+            ->concat($upstreamRadios)
+            ->filter(fn (mixed $radio): bool => is_array($radio))
             ->map(fn (array $radio): array => [
                 'id' => (int) ($radio['id'] ?? 0),
-                'name' => trim((string) ($radio['name'] ?? '')),
+                'name' => trim((string) (is_array($radio['name'] ?? null)
+                    ? ($radio['name'][$language] ?? $radio['name']['ar'] ?? collect($radio['name'])->first())
+                    : ($radio['name'] ?? ''))),
                 'url' => $radio['url'] ?? null,
             ])
             ->filter(fn (array $radio): bool => $radio['id'] > 0 && filled($radio['url']))
+            ->unique('url')
             ->values()
             ->all();
 
