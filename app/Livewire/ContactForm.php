@@ -72,6 +72,12 @@ class ContactForm extends Component implements HasSchemas
             Mail::to($recipients->all())->send(new ContactSubmissionReceivedMail($submission));
         }
 
+        $generalEmail = setting('general.email');
+
+        if (filled($generalEmail) && ! $recipients->contains($generalEmail)) {
+            Mail::to($generalEmail)->send(new ContactSubmissionReceivedMail($submission));
+        }
+
         $this->form->fill();
         $this->dispatch('contact-submitted');
     }
