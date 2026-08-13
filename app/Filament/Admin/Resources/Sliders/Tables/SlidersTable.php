@@ -5,7 +5,6 @@ namespace App\Filament\Admin\Resources\Sliders\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
@@ -19,6 +18,10 @@ class SlidersTable
             ->columns([
                 HoverImageColumn::make('image')
                     ->label(__('Image')),
+
+                TextColumn::make('media_type')
+                    ->label(__('Type'))
+                    ->badge(),
 
                 TextColumn::make('title')
                     ->label(__('Title')),

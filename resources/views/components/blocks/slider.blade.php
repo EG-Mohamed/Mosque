@@ -67,7 +67,11 @@ $slides = \App\Models\Slider::active()->get();
                  x-transition:leave-start="opacity-100"
                  x-transition:leave-end="opacity-0">
 
-                @if($slide->image)
+                @if($slide->isVideo())
+                    <video src="{{ Storage::url($slide->image) }}"
+                           autoplay muted loop playsinline
+                           class="absolute inset-0 w-full h-full object-cover"></video>
+                @elseif($slide->image)
                     <img src="{{ Storage::url($slide->image) }}"
                          alt="{{ $slide->title }}"
                          class="absolute inset-0 w-full h-full object-cover">
