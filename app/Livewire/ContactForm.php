@@ -68,14 +68,16 @@ class ContactForm extends Component implements HasSchemas
             ->where('receive_notification', true)
             ->pluck('email');
 
-        if ($recipients->isNotEmpty()) {
-            Mail::to($recipients->all())->send(new ContactSubmissionReceivedMail($submission));
-        }
-
         $generalEmail = setting('general.email');
 
-        if (filled($generalEmail) && ! $recipients->contains($generalEmail)) {
-            Mail::to($generalEmail)->send(new ContactSubmissionReceivedMail($submission));
+        if ($recipients->isNotEmpty() || filled($generalEmail)) {
+            $mail = Mail::to($recipients->all());
+
+            if (filled($generalEmail) && ! $recipients->contains($generalEmail)) {
+                $mail->cc($generalEmail);
+            }
+
+            $mail->send(new ContactSubmissionReceivedMail($submission));
         }
 
         $this->form->fill();
