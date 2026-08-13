@@ -18,12 +18,11 @@ class ContactSubmissionReceivedMail extends Mailable
 
     public function envelope(): Envelope
     {
-        $submitter = new Address($this->contactSubmission->email, $this->contactSubmission->name);
-
         return new Envelope(
-            from: $submitter,
-            replyTo: [$submitter],
             subject: __('New Contact Message: :subject', ['subject' => $this->contactSubmission->subject]),
+            replyTo: [
+                new Address($this->contactSubmission->email, $this->contactSubmission->name),
+            ],
         );
     }
 
