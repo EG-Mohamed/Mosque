@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IslamicLibraryController;
 use App\Http\Controllers\KhutbaController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PrayerTimeController;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
+Route::get('/privacy-policy', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/cookie-policy', [LegalController::class, 'cookies'])->name('legal.cookies');
+Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms');
 Route::middleware('section-enabled:prayer_times')->group(function (): void {
     Route::get('/prayer-times', [PrayerTimeController::class, 'index'])->name('prayer-times.index');
 });

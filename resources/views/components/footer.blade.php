@@ -86,6 +86,12 @@
             <p class="text-xs text-neutral-600">
                 &copy; {{ date('Y') }} {{ setting('general.name') ?? __('Mosque') }}. {{ __('All rights reserved.') }}
             </p>
+            <nav class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs" aria-label="{{ __('Legal') }}">
+                <a href="{{ route('legal.privacy') }}" class="text-neutral-500 hover:text-emerald-400 transition-colors">{{ __('Privacy Policy') }}</a>
+                <a href="{{ route('legal.cookies') }}" class="text-neutral-500 hover:text-emerald-400 transition-colors">{{ __('Cookie Policy') }}</a>
+                <a href="{{ route('legal.terms') }}" class="text-neutral-500 hover:text-emerald-400 transition-colors">{{ __('Terms of Use') }}</a>
+                <button type="button" data-cc="show-preferencesModal" class="text-neutral-500 hover:text-emerald-400 transition-colors">{{ __('Cookie settings') }}</button>
+            </nav>
             <p class="text-xs text-neutral-700">
                 {{ __('Built with') }} <span class="text-emerald-800">&hearts;</span> {{ __('by') }}
                 <a href="https://msaied.com" class="text-neutral-500 hover:text-emerald-400 transition-colors">Mohamed Said</a>

@@ -83,10 +83,12 @@ $hasMap = !empty(setting('location.latitude')) && !empty(setting('location.longi
                 @endif
             </div>
 
-            <div class="rounded-2xl overflow-hidden shadow-lg border border-neutral-200 bg-neutral-100 min-h-[400px] flex items-center justify-center">
+            <div data-consent-embed class="relative rounded-2xl overflow-hidden shadow-lg border border-neutral-200 bg-neutral-100 min-h-[400px] flex items-center justify-center">
                 @if($hasMap)
+                    <x-consent-placeholder provider="Google Maps" />
                     <iframe
-                        src="https://maps.google.com/maps?q={{ setting('location.latitude') }},{{ setting('location.longitude') }}&z=15&output=embed"
+                        data-consent-category="media"
+                        data-consent-src="https://maps.google.com/maps?q={{ setting('location.latitude') }},{{ setting('location.longitude') }}&z=15&output=embed"
                         class="w-full h-full min-h-[400px]"
                         style="border:0;"
                         allowfullscreen=""

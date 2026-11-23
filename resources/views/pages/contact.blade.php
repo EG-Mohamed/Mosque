@@ -120,9 +120,11 @@
 
             <div>
                 @if(setting('location.latitude') && setting('location.longitude'))
-                    <div class="rounded-2xl overflow-hidden shadow-sm border border-neutral-200 h-96 lg:h-full min-h-80">
+                    <div data-consent-embed class="relative rounded-2xl overflow-hidden shadow-sm border border-neutral-200 h-96 lg:h-full min-h-80">
+                        <x-consent-placeholder provider="Google Maps" />
                         <iframe
-                            src="https://www.google.com/maps?q={{ setting('location.latitude') }},{{ setting('location.longitude') }}&output=embed"
+                            data-consent-category="media"
+                            data-consent-src="https://www.google.com/maps?q={{ setting('location.latitude') }},{{ setting('location.longitude') }}&output=embed"
                             width="100%"
                             height="100%"
                             style="border:0; min-height: 320px;"

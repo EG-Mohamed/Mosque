@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "hls.js": "^1.6.16",
-        "plyr": "^3.8.4"
+        "plyr": "^3.8.4",
+        "vanilla-cookieconsent": "^3.3.0"
     }
 }

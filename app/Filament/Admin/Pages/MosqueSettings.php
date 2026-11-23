@@ -13,7 +13,6 @@ use Filament\Forms\Components\CodeEditor;
 use Filament\Forms\Components\CodeEditor\Enums\Language;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -162,7 +161,7 @@ class MosqueSettings extends Settings
                                     ->pdfToolbar(true) // Enable toolbar
                                     ->pdfZoomLevel(100) // Set zoom level
                                     ->pdfFitType(PdfViewFit::FIT) // Set fit type
-                                    ->pdfNavPanes(true) // Enable navigation panes
+                                    ->pdfNavPanes(true), // Enable navigation panes
 
                             ]),
 
@@ -179,7 +178,7 @@ class MosqueSettings extends Settings
                         Tab::make(__('Navigation'))
                             ->schema([
                                 ...collect(PublicNavigation::sections())
-                                    ->map(fn(string $label, string $section): Toggle => Toggle::make(PublicNavigation::settingKey($section))
+                                    ->map(fn (string $label, string $section): Toggle => Toggle::make(PublicNavigation::settingKey($section))
                                         ->label($label)
                                         ->default(true))
                                     ->all(),
@@ -190,13 +189,13 @@ class MosqueSettings extends Settings
                             ->schema([
                                 CodeEditor::make('custom_code.header')
                                     ->label(__('Header Code'))
-                                    ->hint(__('Injected inside <head> tag (e.g. GA4, Meta Pixel, custom scripts)'))
+                                    ->hint(__('Injected inside <head> tag (e.g. GA4, Meta Pixel). Scripts only run after the visitor accepts analytics cookies.'))
                                     ->language(Language::Html)
                                     ->columnSpanFull(),
 
                                 CodeEditor::make('custom_code.body')
                                     ->label(__('Body Code'))
-                                    ->hint(__('Injected after <body> tag (e.g. tracking pixels, chat widgets)'))
+                                    ->hint(__('Injected after <body> tag (e.g. tracking pixels, chat widgets). Scripts only run after the visitor accepts analytics cookies; <noscript> fallbacks are removed.'))
                                     ->language(Language::Html)
                                     ->columnSpanFull(),
                             ]),

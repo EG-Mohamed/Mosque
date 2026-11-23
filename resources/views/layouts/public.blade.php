@@ -20,10 +20,11 @@
     @filamentStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('head')
-    {!! setting('custom_code.header') !!}
+    {!! \App\Support\ConsentGate::scripts(setting('custom_code.header')) !!}
 </head>
 <body class="bg-white text-neutral-800 font-sans antialiased">
-    {!! setting('custom_code.body') !!}
+    @include('components.cookie-consent')
+    {!! \App\Support\ConsentGate::scripts(setting('custom_code.body')) !!}
     @include('components.navigation')
     <main>
         @yield('content')

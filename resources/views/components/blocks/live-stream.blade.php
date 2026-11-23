@@ -10,11 +10,11 @@
     if ($streamUrl) {
         if (str_contains($streamUrl, 'youtube.com/watch')) {
             parse_str(parse_url($streamUrl, PHP_URL_QUERY), $params);
-            $embedUrl = 'https://www.youtube.com/embed/' . ($params['v'] ?? '');
+            $embedUrl = 'https://www.youtube-nocookie.com/embed/' . ($params['v'] ?? '');
         } elseif (str_contains($streamUrl, 'youtu.be/')) {
-            $embedUrl = 'https://www.youtube.com/embed/' . basename(parse_url($streamUrl, PHP_URL_PATH));
+            $embedUrl = 'https://www.youtube-nocookie.com/embed/' . basename(parse_url($streamUrl, PHP_URL_PATH));
         } elseif (str_contains($streamUrl, 'youtube.com/live/')) {
-            $embedUrl = 'https://www.youtube.com/embed/' . basename(parse_url($streamUrl, PHP_URL_PATH));
+            $embedUrl = 'https://www.youtube-nocookie.com/embed/' . basename(parse_url($streamUrl, PHP_URL_PATH));
         } elseif (str_contains($streamUrl, 'youtube.com/embed/')) {
             $embedUrl = $streamUrl;
         } elseif (str_contains($streamUrl, 'facebook.com')) {
@@ -53,8 +53,9 @@
                 </div>
             @endif
 
-            <div class="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-                <iframe src="{{ $embedUrl }}"
+            <div data-consent-embed class="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+                <x-consent-placeholder :provider="str_contains($embedUrl, 'facebook.com') ? 'Facebook' : (str_contains($embedUrl, 'youtube') ? 'YouTube' : parse_url($embedUrl, PHP_URL_HOST))" />
+                <iframe data-consent-category="media" data-consent-src="{{ $embedUrl }}"
                         class="absolute inset-0 w-full h-full"
                         frameborder="0"
                         allowfullscreen

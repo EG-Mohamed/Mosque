@@ -31,9 +31,11 @@
                 </div>
             @endif
 
-            <div class="overflow-hidden border border-neutral-200 bg-white shadow-sm {{ $hasRoundedCorners ? 'rounded-2xl' : '' }}">
+            <div data-consent-embed class="relative overflow-hidden border border-neutral-200 bg-white shadow-sm {{ $hasRoundedCorners ? 'rounded-2xl' : '' }}">
+                <x-consent-placeholder :provider="parse_url($sanitizedUrl, PHP_URL_HOST)" />
                 <iframe
-                    src="{{ $sanitizedUrl }}"
+                    data-consent-category="media"
+                    data-consent-src="{{ $sanitizedUrl }}"
                     title="{{ $iframeTitle }}"
                     class="w-full"
                     height="{{ $height }}"

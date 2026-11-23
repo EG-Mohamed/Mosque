@@ -54,3 +54,18 @@
     }
 
 }
+
+#cc-main {
+    --cc-font-family: 'Alexandria', ui-sans-serif, system-ui, sans-serif;
+    --cc-btn-primary-bg: #047857;
+    --cc-btn-primary-border-color: #047857;
+    --cc-btn-primary-hover-bg: #065f46;
+    --cc-btn-primary-hover-border-color: #065f46;
+    --cc-btn-secondary-bg: #ecfdf5;
+    --cc-btn-secondary-border-color: #ecfdf5;
+    --cc-btn-secondary-hover-bg: #d1fae5;
+    --cc-btn-secondary-hover-border-color: #d1fae5;
+    --cc-toggle-on-bg: #047857;
+    --cc-link-color: #047857;
+}
+
